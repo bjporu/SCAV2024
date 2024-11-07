@@ -24,13 +24,11 @@ class Translator():
         yuv = np.array([self.R, self.G, self.B])
         return np.matmul(conversion_matrix, yuv)
     
-    def resize(self, width, height, quality, input_image, output_image): #https://stackoverflow.com/questions/28806816/use-ffmpeg-to-resize-image
+    def resize(self, width, height, input_image, output_image): #https://trac.ffmpeg.org/wiki/Scaling
         command = [
             'ffmpeg',
-            '-f', 'mjpeg',
             '-i', input_image,
             '-vf', f'scale={width}:{height}',
-            '-q:v', str(quality),  # Set the quality for JPEG output
             output_image
             ]
         
@@ -41,9 +39,9 @@ def main():
     translator = Translator(100, 150, 200)
     print("YUV:", translator.rgb_to_yuv())
 
-    input_image = r'C:\Users\pabli\OneDrive\Escritorio\Uni 2025\SCAV\snoop_dogg.jpeg'
-    output_image = r'C:\Users\pabli\OneDrive\Escritorio\Uni 2025\SCAV\output.jpeg' 
-    translator.resize(300, 200, 30, input_image, output_image)
+    input_image = "/Users/mariaprosgaznares/Desktop/SCAV2024/LAB1 VIDEO/snoop_dogg.jpeg"
+    output_image = "snoopy_dogg_resized.jpeg" 
+    translator.resize(300, 200, input_image, output_image)
 
     
 if __name__ == "__main__":
