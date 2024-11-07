@@ -71,7 +71,7 @@ class Translator():
 # and may causing problems on decoding and encoding. Thus  highest compression is achieved at 31, which is noticeably lossy.
 # Source: http://www.output.to/sideway/default.aspx?qno=200101402
 
- #For the format filter: https://stackoverflow.com/questions/32384057/ffmpeg-black-and-white-conversion
+ # For the format filter: https://stackoverflow.com/questions/32384057/ffmpeg-black-and-white-conversion
 
  # format=gray:
  #  1. The filter converts the image to a grayscale format by only keeping the luminance component, 
