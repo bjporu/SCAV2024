@@ -371,7 +371,6 @@ def main():
         elif choice == '3':
             run_length_encoding()
         elif choice == '4':
-            # print("Exercise 4 is under construction. Please choose another option.")
             serpentine_scan_main()
         elif choice == '5':
             dct_tool()
@@ -545,11 +544,10 @@ def serpentine_scan_main():
         print("R-component:", scanR[:n])
         print("G-component:", scanG[:n])
         print("B-component:", scanB[:n])
+
+        print("\nProcess complete. Thank you for using the Serpentine-Scan Tool!")
     except TypeError:
         print("Please input an valid value!")
-    # if not   type(n) == int:
-    #     print("Please input an valid value!")
-    #     return
 
 def dct_tool():
     print("\nWelcome to the DCT Encoding and Visualization Tool!")
