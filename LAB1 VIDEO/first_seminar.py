@@ -538,16 +538,17 @@ def serpentine_scan_main():
 
     try:
         print("\nRecall that, if the image has a significant resolution, the length of the scan can get quite big.")
-        n = int(input("Indicate the amnount of values from the scan you want shown (integer value): "))
+        n = int(input("Indicate the amount of values from the scan you want shown (integer value): "))
+        print(f"\nPrinting first '{n}' values of each color component scan:")
+        print("R-component:", [int(value) for value in scanR[:n]])
+        print("G-component:", [int(value) for value in scanG[:n]])
+        print("B-component:", [int(value) for value in scanB[:n]])
         
-        print(f"Printing first '{n}' values of each color component scan:")
-        print("R-component:", scanR[:n])
-        print("G-component:", scanG[:n])
-        print("B-component:", scanB[:n])
 
         print("\nProcess complete. Thank you for using the Serpentine-Scan Tool!")
-    except TypeError:
-        print("Please input an valid value!")
+    except ValueError:
+        print("Please input a valid integer value!")
+
 
 def dct_tool():
     print("\nWelcome to the DCT Encoding and Visualization Tool!")
