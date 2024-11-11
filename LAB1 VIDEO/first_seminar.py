@@ -1,7 +1,9 @@
 import sys
 import os
 
-import image
+# import image
+# import PIL as Image
+from PIL import Image
 import subprocess
 import matplotlib.pyplot as plt
 import numpy as np
@@ -50,6 +52,118 @@ class Translator():
         
         subprocess.run(command, check=True)
 
+###############__EXERCISE 4__#####################
+
+    def serpentine_scan(self, input_matrix):
+
+            # Get the number of rows and columns
+        rows = input_matrix.shape[0]
+        cols = input_matrix.shape[1] if rows > 0 else 0
+        
+        result = []  # To store the final serpentine diagonal order
+        
+        # Loop over each diagonal sum (from 0 to rows + cols - 2)
+        for s in range(rows + cols - 1):
+            diagonal = []  # Temporary list to hold elements of the current diagonal
+            
+            # Determine the starting point of the diagonal
+            if s < rows:
+                row = s
+                col = 0
+            else:
+                row = rows - 1
+                col = s - row
+
+            # Collect all elements along the diagonal
+            while row >= 0 and col < cols:
+                diagonal.append(input_matrix[row][col])
+                row -= 1  # Move up
+                col += 1  # Move right
+
+            # Append the diagonal to result in correct order. The diagonals scanned in downwards direction are scanned in upwards directions and then reversed before being stored,
+            # which eases the overall procedure. 
+            # The code commented below (which consistst of a comically large amount of loops) used to be the implementation of the serpentine scan
+            # that we tried to figure out from scratch, using very primitive procedures, and that allowed us to, not only understand the behaviour of this type of scan,
+            # but also automatise this procedure regardless of the dimensions of a picutre/matrix.
+            if s % 2 == 0:
+                result.extend(diagonal)  # Diagonals with even index in upwards order
+            else:
+                result.extend(diagonal[::-1])  # Diagonals with odd in downwards order (python fa el reverse amb [::1])
+
+        return result 
+
+        # Pixels are painted instead of scanned for us to not loose track of the serpentine behaviour while we code the scan from scratch
+        # (this is rewritten in a cleaned-up manner in the uncommented code above) 
+
+        # for i in range(0, image.shape[0]):
+        #     for j in range(0, image.shape[1]):
+
+        #         if i == (image.shape[0] - 1) and j == (image.shape[1] - 1):
+        #             image[i,j] = [255, 0, 0, 255]
+
+        # i,j = 0,0
+        # # while i != (image.shape[0] - 1) and j != (image.shape[1] - 1):
+
+        # image[i,j] = [255, 0, 0, 255]
+        # j += 1
+        # for n in range(0, int(image.shape[0]/2) - 1): # 3
+        #     # j += 1
+        #     while j > 0: 
+        #         image[i,j] = [0, 255, 0, 255]
+        #         i += 1
+        #         j -= 1
+        #         image[i,j] = [0, 255, 0, 255]
+
+        #     i += 1
+        #     while i > 0:
+        #         image[i,j] = [0, 0, 255, 255]
+        #         i -= 1
+        #         j += 1
+        #         image[i,j] = [0, 0, 255, 255]
+
+        # for n in range(0, int(image.shape[0]/2)): #4
+        #     j += 1
+        #     while j > 2*n: 
+        #         image[i,j] = [0, 255, 0, 255]
+        #         i += 1
+        #         j -= 1
+        #         image[i,j] = [0, 255, 0, 255]
+
+        #     j += 1
+        #     while i > 0:
+        #         image[i,j] = [0, 0, 255, 255]
+        #         i -= 1
+        #         j += 1
+        #         image[i,j] = [0, 0, 255, 255]
+
+        # j += 1
+        # while j > image.shape[0]:
+        #     image[i,j] = [0, 255, 0, 255]
+        #     i += 1
+        #     j -= 1
+        #     image[i,j] = [0, 255, 0, 255]
+
+        # j += 1
+        # while j < image.shape[1] -1:
+        #     image[i,j] = [0, 0, 255, 255]
+        #     i -= 1
+        #     j += 1
+        #     image[i,j] = [0, 0, 255, 255]
+
+        # for n in range(0, int(image.shape[0]/2) - 1): # 3
+        #     i += 1
+        #     while i < image.shape[0] -1 :
+        #         image[i,j] = [0, 255, 0, 255]
+        #         i += 1
+        #         j -= 1
+        #         image[i,j] = [0, 255, 0, 255]
+
+        #     j += 1
+        #     while j < image.shape[1] -1:
+        #         image[i,j] = [0, 0, 255, 255]
+        #         i -= 1
+        #         j += 1
+        #         image[i,j] = [0, 0, 255, 255]
 
 ###############__EXERCISE 5__#####################
 
@@ -243,7 +357,7 @@ def main():
         print("1. RGB to YUV Conversion and Image Resizing")
         print("2. Black & White Image Converter with Hard Compression")
         print("3. Run-Length Encoding Tool")
-        print("4. Exercise 4 (Function Empty)")
+        print("4. Serpentine Scan Tool")
         print("5. DCT Encoding and Visualization Tool")
         print("6. DWT Encoding and Visualization Tool")
         print("7. Exit")
@@ -257,7 +371,7 @@ def main():
         elif choice == '3':
             run_length_encoding()
         elif choice == '4':
-            print("Exercise 4 is under construction. Please choose another option.")
+            serpentine_scan_main()
         elif choice == '5':
             dct_tool()
         elif choice == '6':
@@ -402,6 +516,38 @@ def run_length_encoding():
         print("Invalid sequence! Please enter a valid byte sequence.")
 
     print("\nProcess complete. Thank you for using the Run-Length Encoding Tool!")
+
+def serpentine_scan_main():
+
+    print("\nWelcome to the Serpentine Scan Tool!")
+    print("----------------------------------------------------\n")
+
+    input_image = input("Enter the path of the input image: ").strip()
+    # input_image = r"C:\Users\pabli\OneDrive\Escritorio\Uni 2025\SCAV\snoop_dogg.jpeg"
+
+    if not os.path.exists(input_image):
+        print(f"The path '{input_image}' does not exist. Please enter a valid path.")
+        return 
+
+    image = np.asarray(Image.open(input_image))
+
+    translator = Translator()
+    scanR = translator.serpentine_scan(image[:,:,0])
+    scanG = translator.serpentine_scan(image[:,:,1])
+    scanB = translator.serpentine_scan(image[:,:,2])
+
+    try:
+        print("\nRecall that, if the image has a significant resolution, the length of the scan can get quite big.")
+        n = int(input("Indicate the amnount of values from the scan you want shown (integer value): "))
+        
+        print(f"Printing first '{n}' values of each color component scan:")
+        print("R-component:", scanR[:n])
+        print("G-component:", scanG[:n])
+        print("B-component:", scanB[:n])
+
+        print("\nProcess complete. Thank you for using the Serpentine-Scan Tool!")
+    except TypeError:
+        print("Please input an valid value!")
 
 def dct_tool():
     print("\nWelcome to the DCT Encoding and Visualization Tool!")
