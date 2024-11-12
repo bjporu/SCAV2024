@@ -1,32 +1,20 @@
-# Dockerfile
-
-# Use the official Python image as a base
-
-FROM python:3.10-slim
-
-# https://katalon-inc.my.site.com/katalonhelpcenter/s/article/How-to-install-FFMPEG-on-Docker-Image
-# Install ffmpeg
-RUN apt-get update && \
-    apt-get install -y ffmpeg && \
-    rm -rf /var/lib/apt/lists/*
+# Use an official Python runtime as a parent image
+FROM python:3.11-slim
 
 # Set the working directory in the container
-
 WORKDIR /app
 
-# Copies requirements.txt from your local app folder into the container.
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-COPY app/requirements.txt .
+# Install necessary dependencies
+RUN apt-get update && apt-get install -y ffmpeg libsndfile1
 
-# Installs FastAPI, Uvicorn, and other dependencies listed in requirements.txt.
+# Install Python dependencies
+RUN pip install --no-cache-dir fastapi uvicorn numpy scipy matplotlib Pillow
 
-RUN pip install --no-cache-dir -r requirements.txt
+# Make port 8000 available to the world outside this container
+EXPOSE 8000
 
-# Copy the FastAPI app code to the working directory
-COPY app /app
-
-# Exposes port 80, which is used to access the application from outside the container.
-EXPOSE 80
-
-# Starts the FastAPI app with Uvicorn, listening on all network interfaces.
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+# Define the command to run your app using uvicorn
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
