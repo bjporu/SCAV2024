@@ -1,12 +1,18 @@
-import numpy as np
+import os
+import sys
+
 from fastapi import FastAPI, HTTPException
+
+import numpy as np
+
 from pydantic import BaseModel
 from typing import List
 import subprocess
-import os
+
+
 from scipy.fftpack import dct, idct
 
-
+#Initializes the aapp
 app = FastAPI()
 
 # Data models
@@ -32,11 +38,6 @@ class DCTRequest(BaseModel):
 
 class RLERequest(BaseModel):
     input_data: List[int]
-
-class DWTRequest(BaseModel):
-    input_data: List[List[float]]
-    wavelet: str
-    level: int
 
 class SerpentineRequest(BaseModel):
     input_data: List[List[int]]
@@ -104,37 +105,6 @@ def run_length_decode(encoded_data):
     for value, count in encoded_data:
         decoded.extend([value] * count)
     return decoded
-
-
-# Haar Wavelet Transform (DWT)
-def haar_wavelet_transform(data):
-    n = len(data)
-    output = np.copy(data)
-    step = 1
-    while step < n:
-        for i in range(0, n, 2*step):
-            for j in range(step):
-                avg = (output[i + j] + output[i + j + step]) / 2
-                diff = (output[i + j] - output[i + j + step]) / 2
-                output[i + j] = avg
-                output[i + j + step] = diff
-        step *= 2
-    return output
-
-def inverse_haar_wavelet_transform(data):
-    n = len(data)
-    output = np.copy(data)
-    step = n // 2
-    while step > 0:
-        for i in range(0, n, 2*step):
-            for j in range(step):
-                avg = output[i + j]
-                diff = output[i + j + step]
-                output[i + j] = avg + diff
-                output[i + j + step] = avg - diff
-        step //= 2
-    return output
-
 
 # Serpentine (Zigzag) Scan
 def serpentine_scan(input_matrix):
@@ -226,19 +196,6 @@ def encode_rle(data: RLERequest):
 def decode_rle(data: RLERequest):
     decoded = run_length_decode(data.input_data)
     return {"decoded_data": decoded}
-
-
-@app.post("/dwt/")
-def apply_wavelet_transform(data: DWTRequest):
-    coeffs = haar_wavelet_transform(data.input_data)
-    return {"wavelet_coefficients": coeffs.tolist()}
-
-
-@app.post("/idwt/")
-def apply_inverse_wavelet_transform(data: DWTRequest):
-    image = inverse_haar_wavelet_transform(data.input_data)
-    return {"reconstructed_data": image.tolist()}
-
 
 @app.post("/serpentine/")
 def serpentine_scan_data(data: SerpentineRequest):

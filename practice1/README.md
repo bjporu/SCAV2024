@@ -1,92 +1,88 @@
+## FastAPI API
+
+This is a FastAPI-based web service designed for various image and data processing tasks.
+The application is containerized using Docker.
+
+## Objectives 
+The primary objectives of this project were:
+1. **Develop a FastAPI-based API** for image and signal processing.
+2. **Implement color space conversion** for RGB to YUV and YUV to RGB.
+3. **Provide image manipulation capabilities** such as resizing and black & white conversion.
+4. **Enable signal processing features** such as DCT encoding and decoding, Run-Length Encoding (RLE), and Serpentine scanning.
+5. **Containerize the application** using Docker to ensure scalability and portability.
+6. **Use FFmpeg** to handle image resizing and black-and-white conversion tasks.
+
 ## Key Features
 
-* LivePreview - Make changes, See changes
-  - Instantly see what your Markdown documents look like in HTML as you create them.
-* Sync Scrolling
-  - While you type, LivePreview will automatically scroll to the current location you're editing.
-* GitHub Flavored Markdown  
-* Syntax highlighting
-* [KaTeX](https://khan.github.io/KaTeX/) Support
-* Dark/Light mode
-* Toolbar for basic Markdown formatting
-* Supports multiple cursors
-* Save the Markdown preview as PDF
-* Emoji support in preview :tada:
-* App will keep alive in tray for quick usage
-* Full screen mode
-  - Write distraction free.
-* Cross platform
-  - Windows, macOS and Linux ready.
+Key Features
+
+* 1. Image Processing
+- RGB to YUV Conversion: Convert RGB values to YUV color space.
+- YUV to RGB Conversion: Convert YUV values back to RGB.
+- Resize Image: Resize an image to specified dimensions using FFmpeg.
+- Convert to Black and White: Convert an image to grayscale using FFmpeg.
+* 2. Signal Processing
+- DCT (Discrete Cosine Transform):
+- Encode data using the DCT.
+- Decode DCT-encoded data back to the original signal.
+- RLE (Run-Length Encoding):
+- Encode data using RLE for compression.
+- Decode RLE-encoded data back to the original sequence.
+* 3. Serpentine (Zigzag) Scan
+_ Perform a serpentine scan (Zigzag scan) on a 2D matrix for data processing or compression.
 
 ## How To Use
 
-To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
-
+To clone and run this application, you'll need: 
 ```bash
 # Clone this repository
-$ git clone https://github.com/amitmerchant1990/electron-markdownify
+$ git clone https://github.com/bjporu/SCAV2024
 
 # Go into the repository
-$ cd electron-markdownify
+$ cd SCAV2024
 
-# Install dependencies
-$ npm install
+# Go into the practice folder
+$ cd practice1
 
-# Run the app
-$ npm start
+#REMEMBER TO OPEN DOCKER DESKTOP AND GET IT RUNNING https://docs.docker.com/desktop
+
+#Build the docker as:
+$ docker build -t fastapi-app .     
+
+#Run the docker and connect it to SCAV2024 (with your own path) to obatin access the image snoop_dogg.jpeg in LAB1 VIDEO. All resizing or Black and White operation results will be stored in that same folder.
+
+$ docker run -d -p 8000:8000 -v /.../SCAV2024/LAB1\ VIDEO:/app/images fastapi-app
+
+
+#To access the api you can go to your browser of preference and input the following link
+
+# http://localhost:8000/docs
+# 127.0.0.1:8000/docs
+# 0.0.0.0:8000/docs #Might not work due to firewalls
+
+# From there you will be able to see and interact with all endpoints by clicking on "Try it out".
+# However you can always call them from the terminal as:
+$ curl -X 'POST' \
+  'http://localhost:8000/rgb_to_yuv/' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "R": 100,
+  "G": 200,
+  "B": 120
+}'
+
+#IMPORTANT! WHEN USING FFMPEG RELATED ENDPOINTS (resize and black_and_white)
+THe input and output paths must be declared as: /app/images
+WHY?
+Remember? 
+$ docker run -d -p 8000:8000 -v /.../SCAV2024/LAB1\ VIDEO:/app/images fastapi-app
+That's why
+
+To stop the containers you simply have to run:
+$ docker ps
+
+# You will see the CONTAINER ID, copy it and run the following command:
+$ docker stop CONTAINER_ID
+
 ```
-
-> **Note**
-> If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
-
-
-## Download
-
-You can [download](https://github.com/amitmerchant1990/electron-markdownify/releases/tag/v1.2.0) the latest installable version of Markdownify for Windows, macOS and Linux.
-
-## Emailware
-
-Markdownify is an [emailware](https://en.wiktionary.org/wiki/emailware). Meaning, if you liked using this app or it has helped you in any way, I'd like you send me an email at <bullredeyes@gmail.com> about anything you'd want to say about this software. I'd really appreciate it!
-
-## Credits
-
-This software uses the following open source packages:
-
-- [Electron](http://electron.atom.io/)
-- [Node.js](https://nodejs.org/)
-- [Marked - a markdown parser](https://github.com/chjj/marked)
-- [showdown](http://showdownjs.github.io/showdown/)
-- [CodeMirror](http://codemirror.net/)
-- Emojis are taken from [here](https://github.com/arvida/emoji-cheat-sheet.com)
-- [highlight.js](https://highlightjs.org/)
-
-## Related
-
-[markdownify-web](https://github.com/amitmerchant1990/markdownify-web) - Web version of Markdownify
-
-## Support
-
-<a href="https://buymeacoffee.com/amitmerchant" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
-
-<p>Or</p> 
-
-<a href="https://www.patreon.com/amitmerchant">
-    <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-</a>
-
-## You may also like...
-
-- [Pomolectron](https://github.com/amitmerchant1990/pomolectron) - A pomodoro app
-- [Correo](https://github.com/amitmerchant1990/correo) - A menubar/taskbar Gmail App for Windows and macOS
-
-## License
-
-MIT
-
----
-
-> [amitmerchant.com](https://www.amitmerchant.com) &nbsp;&middot;&nbsp;
-> GitHub [@amitmerchant1990](https://github.com/amitmerchant1990) &nbsp;&middot;&nbsp;
-> Twitter [@amit_merchant](https://twitter.com/amit_merchant)
-
-
