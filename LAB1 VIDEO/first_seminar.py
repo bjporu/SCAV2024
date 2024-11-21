@@ -7,7 +7,7 @@ from PIL import Image
 import subprocess
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.fftpack import dct, idct
+from scipy.fftpack import dct, idct 
 
 
 from collections import OrderedDict
@@ -15,7 +15,7 @@ import pywt
 
 
 class Translator():
-  
+   
 
 ###############__EXERCISE 2__#####################
     def __init__(self): #The __init__ method is a constructor that is called each time an instance of the class is created.
@@ -539,6 +539,7 @@ def serpentine_scan_main():
     try:
         print("\nRecall that, if the image has a significant resolution, the length of the scan can get quite big.")
         n = int(input("Indicate the amount of values from the scan you want shown (integer value): "))
+
         print(f"\nPrinting first '{n}' values of each color component scan:")
         print("R-component:", [int(value) for value in scanR[:n]])
         print("G-component:", [int(value) for value in scanG[:n]])
@@ -556,6 +557,7 @@ def dct_tool():
 
     while True:
         print("\nTask 1: DCT Encoding and Visualization")
+    
 
         choice = input("Enter 'sinewave', 'noisy', 'squarewave', 'impulse', 'step', or 'exit' to quit: ").strip().lower()
 
@@ -581,12 +583,15 @@ def dct_tool():
             elif choice == 'step':
                 t = np.linspace(0, 2 * np.pi, 1000)
                 input_data = np.ones_like(t)  # Step function
+            elif choice == 'hola':
+                input_data = [0.548, 0.512, 0.487]
             else:
                 print("Invalid input. Please enter 'sinewave', 'noisy', 'squarewave', 'impulse', 'step', or 'exit'.")
                 continue  
 
             dct_processor = DCT(type_of_dct=2)
             encoded_data = dct_processor.encode(input_data)
+            print(encoded_data)
             decoded_data = dct_processor.decode(encoded_data)
             dct_processor.visualize(input_data, encoded_data, decoded_data)
 
@@ -633,12 +638,15 @@ def dwt_tool():
             elif choice == 'step':
                 t = np.linspace(0, 2 * np.pi, 1000)
                 input_data = np.ones_like(t)  # Step function
+            elif choice == 'hola':
+                input_data = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
             else:
                 print("Invalid input. Please enter 'sinewave', 'noisy', 'squarewave', 'impulse', 'step', or 'exit'.")
                 continue  
 
             dwt_encoder = DWT(wavelet_type='db1')
             encoded_data, approximation_coeffs, detail_coeffs = dwt_encoder.encode(input_data)
+            print(encoded_data)
             decoded_data = dwt_encoder.decode(encoded_data)
             dwt_encoder.visualize(input_data, encoded_data, approximation_coeffs, detail_coeffs, decoded_data)
 
