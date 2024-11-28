@@ -1,6 +1,6 @@
 ## FastAPI API
 
-This is a FastAPI-based web service designed for various image and data processing tasks.
+This is a FastAPI-based web service designed for various manipulation tasks of the Big Buck Bunny video.
 The application is containerized using Docker.
 
 ## Objectives 
@@ -14,13 +14,8 @@ The primary objectives of this project were:
 
 ## Key Features
 
-Key Features
+* Modify the resolution
 
-* 1. Image Processing
-- RGB to YUV Conversion: Convert RGB values to YUV color space.
-- YUV to RGB Conversion: Convert YUV values back to RGB.
-- Resize Image: Resize an image to specified dimensions using FFmpeg.
-- Convert to Black and White: Convert an image to grayscale using FFmpeg.
 * 2. Signal Processing
 - DCT (Discrete Cosine Transform):
 - Encode data using the DCT.
@@ -42,7 +37,7 @@ $ git clone https://github.com/bjporu/SCAV2024
 $ cd SCAV2024
 
 # Go into the practice folder
-$ cd practice1
+$ cd practice2
 
 #REMEMBER TO OPEN DOCKER DESKTOP AND GET IT RUNNING https://docs.docker.com/desktop
 
@@ -51,7 +46,7 @@ $ docker build -t fastapi-app .
 
 #Run the docker and connect it to SCAV2024 (with your own path) to obatin access the image snoop_dogg.jpeg in LAB1 VIDEO. All resizing or Black and White operation results will be stored in that same folder.
 
-$ docker run -d -p 8000:8000 -v /.../SCAV2024/LAB1\ VIDEO:/app/images fastapi-app
+$ docker run -d -p 8000:8000 -v /.../SCAV2024/practice2\ VIDEO:/app/images fastapi-app
 
 
 #To access the api you can go to your browser of preference and input the following link
