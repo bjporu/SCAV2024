@@ -3,15 +3,6 @@
 This is a FastAPI-based web service designed for various manipulation tasks of the Big Buck Bunny video.
 The application is containerized using Docker.
 
-## Objectives 
-The primary objectives of this project were:
-1. **Develop a FastAPI-based API** for image and signal processing.
-2. **Implement color space conversion** for RGB to YUV and YUV to RGB.
-3. **Provide image manipulation capabilities** such as resizing and black & white conversion.
-4. **Enable signal processing features** such as DCT encoding and decoding, Run-Length Encoding (RLE), and Serpentine scanning.
-5. **Containerize the application** using Docker to ensure scalability and portability.
-6. **Use FFmpeg** to handle image resizing and black-and-white conversion tasks.
-
 ## Key Features
 
 * Modify the resolution
