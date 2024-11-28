@@ -15,16 +15,15 @@ The primary objectives of this project were:
 ## Key Features
 
 * Modify the resolution
-
-* 2. Signal Processing
-- DCT (Discrete Cosine Transform):
-- Encode data using the DCT.
-- Decode DCT-encoded data back to the original signal.
-- RLE (Run-Length Encoding):
-- Encode data using RLE for compression.
-- Decode RLE-encoded data back to the original sequence.
-* 3. Serpentine (Zigzag) Scan
-_ Perform a serpentine scan (Zigzag scan) on a 2D matrix for data processing or compression.
+* Modify the chroma subsampling
+* Extract the rellevant data from the video file
+* Crop the video into a 20-seconds section
+* Export its audio as an ACC mono track
+* Export its audio in mp3 stereo
+* Export its audio in AC3 codec
+* Reads the tracks from an MP4 container, such that it’s able to deliver an output how many tracks does the container contains
+* Output a video that shows the macroblocks and the motion vectors
+* Output a video that shows the the YUV histogram
 
 ## How To Use
 
@@ -44,7 +43,7 @@ $ cd practice2
 #Build the docker as:
 $ docker build -t fastapi-app .     
 
-#Run the docker and connect it to SCAV2024 (with your own path) to obatin access the image snoop_dogg.jpeg in LAB1 VIDEO. All resizing or Black and White operation results will be stored in that same folder.
+#Run the docker and connect it to SCAV2024 (with your own path) to obatin access the video bbb.mp4 in LAB1 VIDEO. All resizing or Black and White operation results will be stored in that same folder.
 
 $ docker run -d -p 8000:8000 -v /.../SCAV2024/practice2\ VIDEO:/app/images fastapi-app
 
@@ -57,17 +56,17 @@ $ docker run -d -p 8000:8000 -v /.../SCAV2024/practice2\ VIDEO:/app/images fasta
 
 # From there you will be able to see and interact with all endpoints by clicking on "Try it out".
 # However you can always call them from the terminal as:
-$ curl -X 'POST' \
-  'http://localhost:8000/rgb_to_yuv/' \
+curl -X 'POST' \
+  'http://localhost:8000/change_chroma_subsampling/' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
-  "R": 100,
-  "G": 200,
-  "B": 120
+  "input_video": "/app/images/bbb.mp4",
+  "output_video": "/app/images/bbb_chroma_subsampled.mp4",
+  "pixel_format": "yuv444p"
 }'
 
-#IMPORTANT! WHEN USING FFMPEG RELATED ENDPOINTS (resize and black_and_white)
+#IMPORTANT! WHEN USING FFMPEG RELATED ENDPOINTS
 THe input and output paths must be declared as: /app/images
 WHY?
 Remember? 
