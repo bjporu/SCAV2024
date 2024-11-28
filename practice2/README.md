@@ -27,7 +27,7 @@ $ git clone https://github.com/bjporu/SCAV2024
 $ cd SCAV2024
 
 # Go into the practice folder
-$ cd practice2
+$ cd practice3
 
 #REMEMBER TO OPEN DOCKER DESKTOP AND GET IT RUNNING https://docs.docker.com/desktop
 
@@ -36,7 +36,7 @@ $ docker build -t fastapi-app .
 
 #Run the docker and connect it to SCAV2024 (with your own path) to obatin access the video bbb.mp4 in LAB1 VIDEO. All resizing or Black and White operation results will be stored in that same folder.
 
-$ docker run -d -p 8000:8000 -v /.../SCAV2024/practice2\ VIDEO:/app/images fastapi-app
+$ docker run -d -p 8000:8000 -v /.../SCAV2024/practice3\ VIDEO:/app/images fastapi-app
 
 
 #To access the api you can go to your browser of preference and input the following link
