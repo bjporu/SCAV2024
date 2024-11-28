@@ -73,7 +73,7 @@ $ curl -X 'POST' \
 }'
 
 #IMPORTANT! WHEN USING FFMPEG RELATED ENDPOINTS (resize and black_and_white)
-THe input and output paths must be declared as: /app/images
+THe input and output paths must be declared as: /app/images/...
 WHY?
 Remember? 
 $ docker run -d -p 8000:8000 -v /.../SCAV2024/LAB1\ VIDEO:/app/images fastapi-app
@@ -84,5 +84,7 @@ $ docker ps
 
 # You will see the CONTAINER ID, copy it and run the following command:
 $ docker stop CONTAINER_ID
+
+
 
 ```
