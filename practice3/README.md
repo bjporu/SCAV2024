@@ -1,35 +1,20 @@
 ## FastAPI API
 
-This is a FastAPI-based web service designed for various image and data processing tasks.
+This is a FastAPI-based web service designed for various manipulation tasks of the Big Buck Bunny video.
 The application is containerized using Docker.
-
-## Objectives 
-The primary objectives of this project were:
-1. **Develop a FastAPI-based API** for image and signal processing.
-2. **Implement color space conversion** for RGB to YUV and YUV to RGB.
-3. **Provide image manipulation capabilities** such as resizing and black & white conversion.
-4. **Enable signal processing features** such as DCT encoding and decoding, Run-Length Encoding (RLE), and Serpentine scanning.
-5. **Containerize the application** using Docker to ensure scalability and portability.
-6. **Use FFmpeg** to handle image resizing and black-and-white conversion tasks.
 
 ## Key Features
 
-Key Features
-
-* 1. Image Processing
-- RGB to YUV Conversion: Convert RGB values to YUV color space.
-- YUV to RGB Conversion: Convert YUV values back to RGB.
-- Resize Image: Resize an image to specified dimensions using FFmpeg.
-- Convert to Black and White: Convert an image to grayscale using FFmpeg.
-* 2. Signal Processing
-- DCT (Discrete Cosine Transform):
-- Encode data using the DCT.
-- Decode DCT-encoded data back to the original signal.
-- RLE (Run-Length Encoding):
-- Encode data using RLE for compression.
-- Decode RLE-encoded data back to the original sequence.
-* 3. Serpentine (Zigzag) Scan
-_ Perform a serpentine scan (Zigzag scan) on a 2D matrix for data processing or compression.
+* Modify the resolution
+* Modify the chroma subsampling
+* Extract the rellevant data from the video file
+* Crop the video into a 20-seconds section
+* Export its audio as an ACC mono track
+* Export its audio in mp3 stereo
+* Export its audio in AC3 codec
+* Reads the tracks from an MP4 container, such that it’s able to deliver an output how many tracks does the container contains
+* Output a video that shows the macroblocks and the motion vectors
+* Output a video that shows the the YUV histogram
 
 ## How To Use
 
@@ -42,16 +27,16 @@ $ git clone https://github.com/bjporu/SCAV2024
 $ cd SCAV2024
 
 # Go into the practice folder
-$ cd practice1
+$ cd practice3
 
 #REMEMBER TO OPEN DOCKER DESKTOP AND GET IT RUNNING https://docs.docker.com/desktop
 
 #Build the docker as:
 $ docker build -t fastapi-app .     
 
-#Run the docker and connect it to SCAV2024 (with your own path) to obatin access the image snoop_dogg.jpeg in LAB1 VIDEO. All resizing or Black and White operation results will be stored in that same folder.
+#Run the docker and connect it to SCAV2024 (with your own path) to obatin access the video bbb.mp4 in LAB1 VIDEO. All resizing or Black and White operation results will be stored in that same folder.
 
-$ docker run -d -p 8000:8000 -v /.../SCAV2024/LAB1\ VIDEO:/app/images fastapi-app
+$ docker run -d -p 8000:8000 -v /.../SCAV2024/practice3\ VIDEO:/app/images fastapi-app
 
 
 #To access the api you can go to your browser of preference and input the following link
@@ -62,17 +47,17 @@ $ docker run -d -p 8000:8000 -v /.../SCAV2024/LAB1\ VIDEO:/app/images fastapi-ap
 
 # From there you will be able to see and interact with all endpoints by clicking on "Try it out".
 # However you can always call them from the terminal as:
-$ curl -X 'POST' \
-  'http://localhost:8000/rgb_to_yuv/' \
+curl -X 'POST' \
+  'http://localhost:8000/change_chroma_subsampling/' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
-  "R": 100,
-  "G": 200,
-  "B": 120
+  "input_video": "/app/images/bbb.mp4",
+  "output_video": "/app/images/bbb_chroma_subsampled.mp4",
+  "pixel_format": "yuv444p"
 }'
 
-#IMPORTANT! WHEN USING FFMPEG RELATED ENDPOINTS (resize and black_and_white)
+#IMPORTANT! WHEN USING FFMPEG RELATED ENDPOINTS
 THe input and output paths must be declared as: /app/images
 WHY?
 Remember? 
