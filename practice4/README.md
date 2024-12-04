@@ -38,7 +38,7 @@ $ docker build -t fastapi-app .
 
 #Run the docker and connect it to SCAV2024 (with your own path) to obatin access the video bbb.mp4 in LAB1 VIDEO. All resizing or Black and White operation results will be stored in that same folder.
 
-$ docker run -d -p 8000:8000 -v /.../SCAV2024/practice3\ VIDEO:/app/images fastapi-app
+$ docker run -d -p 8000:8000 -v /path_to_local_folder_with_images_and_videos:/app/images fastapi-app
 
 
 #To access the GUI 
@@ -47,4 +47,4 @@ $ python app_gui.py
 # Then select the desired API endpoint from the menu.
 # Once selected input the necessary fields and submit. 
 # The result will be stored in the Local Folder where you retrieved the image or video from
-# specified in /path_to_local_folder:/app/images.
+# specified in /path_to_local_folder_with_images_and_videos:/app/images.
